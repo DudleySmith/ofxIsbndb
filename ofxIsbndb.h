@@ -8,7 +8,10 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofxXmlSettings.h"
+
 #include "ofxIsbndb_define.h"
+#include "ofxIsbndbBook.h"
 
 class ofxIsbndb
 {
@@ -16,11 +19,15 @@ class ofxIsbndb
         ofxIsbndb();
         virtual ~ofxIsbndb();
 
-        string urlRequest_book(double _isbn);
-
+        string  urlRequest_book(double _isbn);
+        void    urlResponse(ofHttpResponse &_response);
+        void    send(string _isbnNumber);
+    
     protected:
     private:
         string urlRequest_basis();
+    
+    bool m_bLoading;
 
 };
 

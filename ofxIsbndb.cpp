@@ -35,3 +35,61 @@ string ofxIsbndb::urlRequest_basis(){
     return urlRequest;
 
 }
+
+//--------------------------------------------------------------
+void ofxIsbndb::send(string _isbnNumber){
+    double isbnToSend = ofToDouble(_isbnNumber);
+    string url = "";
+    
+    if(isbnToSend<=0){
+        // Can not sent, log it
+        ofLogError() << "Request not sent : isbn not available : " << _isbnNumber;
+        return;
+    }
+    
+    if(m_bLoading==true){
+        // Can not sent, log it
+        ofLogError() << "Request already sent.";
+        return;
+    }
+    
+    // Build the url
+    url = urlRequest_book(isbnToSend);
+    // Send it to the world wide web
+    ofLoadURLAsync(url,apiRequest_Name_Book);
+    m_bLoading =true;
+    // Log it
+    ofLogNotice() << "Request sent : " << url;
+    
+    
+}
+
+//--------------------------------------------------------------
+void ofxIsbndb::urlResponse(ofHttpResponse & response){
+    
+    ofxXmlSettings  xml;
+    ofxIsbndbBook   bookReceived;
+    
+    // 
+    ofLogNotice() << "Response Got : Status=" << response.status << " Request Name=" << response.request.name;
+    
+	if(response.status==apiStatus_Found && response.request.name == apiRequest_Name_Book){
+		xml.clear();
+        xml.loadFromBuffer(response.data);
+        
+        // Response OK, we can decode
+        ofLogNotice() << "Response OK, we'll add a book.";
+        if(bookReceived.fillWithInfos(xml)){
+            // Log the book added
+            ofLogNotice() << "BOOK ADDED : " << bookReceived.toString();
+        }
+
+		m_bLoading=false;
+        
+        
+        
+	}else{
+		//
+        if(response.status!=-1) m_bLoading=false;
+	}
+}
