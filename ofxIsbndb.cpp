@@ -68,7 +68,6 @@ void ofxIsbndb::send(string _isbnNumber){
 void ofxIsbndb::urlResponse(ofHttpResponse & response){
     
     ofxXmlSettings  xml;
-    ofxIsbndbBook   bookReceived;
     
     // 
     ofLogNotice() << "Response Got : Status=" << response.status << " Request Name=" << response.request.name;
@@ -79,9 +78,9 @@ void ofxIsbndb::urlResponse(ofHttpResponse & response){
         
         // Response OK, we can decode
         ofLogNotice() << "Response OK, we'll add a book.";
-        if(bookReceived.fillWithInfos(xml)){
+        if(m_oBookReceived.fill(xml)){
             // Log the book added
-            ofLogNotice() << "BOOK ADDED : " << bookReceived.toString();
+            ofLogNotice() << "BOOK ADDED : " << m_oBookReceived.toString();
         }
 
 		m_bLoading=false;

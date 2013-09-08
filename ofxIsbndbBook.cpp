@@ -12,20 +12,22 @@ string ofxIsbndbBook::toString(){
     
     string bookToString = "";
     
-    bookToString = "isbn key=" + ofToString(m_isbnKey) + " : ";
-    bookToString += "Title=" + m_title + " : ";
-    bookToString += "Author=" + m_author;
+    bookToString = "isbn key=" + ofToString(m_iIsbnKey) + " : ";
+    bookToString += "Title=" + m_sTitle + " : ";
+    bookToString += "Author=" + m_sAuthor;
     
     return bookToString;
     
 }
 
-bool ofxIsbndbBook::fillWithInfos(ofxXmlSettings &_xml){
+bool ofxIsbndbBook::fill(ofxXmlSettings &_xml){
     
     string content;
     _xml.copyXmlToString(content);
     
     ofLogNotice() << content;
+    
+    clear();
     
     // First check the content
     // 2 Tags mandatory : isbndb + datas
@@ -41,15 +43,26 @@ bool ofxIsbndbBook::fillWithInfos(ofxXmlSettings &_xml){
     }
     
     // Get the isbn number and check it
-    m_isbnKey = ofToDouble(_xml.getValue(ISBN_API_TAG_isbn13, "unknown"));
-    if(m_isbnKey<=0){
-        ofLogError() << "ISBN Number not available." << m_isbnKey;
+    m_iIsbnKey = ofToDouble(_xml.getValue(ISBN_API_TAG_isbn13, "unknown"));
+    if(m_iIsbnKey<=0){
+        ofLogError() << "ISBN Number not available." << m_iIsbnKey;
         return false;
     }
     
-    m_title = _xml.getValue(ISBN_API_TAG_title, "unknown");
-    m_author = _xml.getValue(ISBN_API_TAG_author_data_name, "unknown");
+    m_sTitle = _xml.getValue(ISBN_API_TAG_title, "unknown");
+    m_sAuthor = _xml.getValue(ISBN_API_TAG_author_data_name, "unknown");
     
+    m_bIsFilled = true;
     return true;
+    
+}
+
+void ofxIsbndbBook::clear(){
+    m_bIsFilled = false;
+    
+    
+    m_iIsbnKey = 0;
+    m_sAuthor = "";
+    m_sTitle = "";
     
 }

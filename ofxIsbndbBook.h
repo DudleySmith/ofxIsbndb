@@ -16,24 +16,29 @@
 class ofxIsbndbBook{
 protected:
     // Book informations
-    string m_title;
-    string m_author;
+    string m_sTitle;
+    string m_sAuthor;
     // Isbn key
-    double m_isbnKey;
+    double m_iIsbnKey;
+    // Is it ready to add in a library
+    bool m_bIsFilled;
 
 public:
     // ACCESSORS -------------------------------------------
-    string get_title(){return m_title;}
-    void set_title(string _title){m_title=_title;}
+    string get_title(){return m_sTitle;}
+    void set_title(string _title){m_sTitle=_title;}
     
-    string get_author(){return m_author;}
-    void set_author(string _author){m_author=_author;}
+    string get_author(){return m_sAuthor;}
+    void set_author(string _author){m_sAuthor=_author;}
     
-    double get_isbnKey(){return m_isbnKey;}
-    void set_isbnKey(double _isbnKey){m_isbnKey=_isbnKey;}
+    double get_isbnKey(){return m_iIsbnKey;}
+    void set_isbnKey(double _isbnKey){m_iIsbnKey=_isbnKey;}
+    
+    double get_isFilled(){return m_bIsFilled;}
     
     // Fill with informations from isbndb.com
-    bool fillWithInfos(ofxXmlSettings &_xml);
+    bool fill(ofxXmlSettings &_xml);
+    void clear();
     
     string toString();
     

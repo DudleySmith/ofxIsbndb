@@ -24,6 +24,10 @@ class ofxIsbndb
         void    send(string _isbnNumber);
     
     protected:
+        ofxIsbndbBook   m_oBookReceived;
+    public:
+    ofxIsbndbBook   get_BookReceived(){return m_oBookReceived;};
+    
     private:
         string urlRequest_basis();
     
