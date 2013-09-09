@@ -19,14 +19,14 @@ class ofxIsbndb
         ofxIsbndb();
         virtual ~ofxIsbndb();
 
-        string  urlRequest_book(double _isbn);
+        string  urlRequest_book(string _isbn);
         void    urlResponse(ofHttpResponse &_response);
         void    send(string _isbnNumber);
     
     protected:
         ofxIsbndbBook   m_oBookReceived;
     public:
-    ofxIsbndbBook   get_BookReceived(){return m_oBookReceived;};
+        ofxIsbndbBook   get_BookReceived(){return m_oBookReceived;};
     
     private:
         string urlRequest_basis();

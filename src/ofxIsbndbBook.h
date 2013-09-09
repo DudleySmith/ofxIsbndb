@@ -19,7 +19,7 @@ protected:
     string m_sTitle;
     string m_sAuthor;
     // Isbn key
-    double m_iIsbnKey;
+    string m_sIsbnKey;
     // Is it ready to add in a library
     bool m_bIsFilled;
 
@@ -31,8 +31,8 @@ public:
     string get_author(){return m_sAuthor;}
     void set_author(string _author){m_sAuthor=_author;}
     
-    double get_isbnKey(){return m_iIsbnKey;}
-    void set_isbnKey(double _isbnKey){m_iIsbnKey=_isbnKey;}
+    string get_isbnKey(){return m_sIsbnKey;}
+    void set_isbnKey(string _isbnKey){m_sIsbnKey=_isbnKey;}
     
     double get_isFilled(){return m_bIsFilled;}
     

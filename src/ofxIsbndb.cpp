@@ -11,7 +11,7 @@ ofxIsbndb::~ofxIsbndb()
 }
 
 // Send URL to store refs from one isbn number ---------------
-string ofxIsbndb::urlRequest_book(double _isbn){
+string ofxIsbndb::urlRequest_book(string _isbn){
 
     string urlRequest = urlRequest_basis();
 
@@ -54,7 +54,7 @@ void ofxIsbndb::send(string _isbnNumber){
     }
     
     // Build the url
-    url = urlRequest_book(isbnToSend);
+    url = urlRequest_book(_isbnNumber);
     // Send it to the world wide web
     ofLoadURLAsync(url,apiRequest_Name_Book);
     m_bLoading =true;
