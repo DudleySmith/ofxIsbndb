@@ -37,13 +37,25 @@ bool ofxIsbndbBook::fill(ofxXmlSettings &_xml){
         return false;
     }
     
-    if (!_xml.pushTag(ISBN_API_TAG_data)) {
-        ofLogError() << "Can not retreive this tag." << ISBN_API_TAG_data;
+    
+    // Have a look if we have ehough results -------------------------------------------------------------
+    int results = 0;
+    string strResults;
+    
+    strResults = _xml.getAttribute(ISBN_API_TAG_BookList, ISBN_API_TAG_BookList_ATT_total_results, "unknown");
+    results = ofToInt(strResults);
+    
+    if (results<=0) {
+        ofLogError() << "No results.";
         return false;
     }
     
-    // Get the isbn number and check it
-    m_sIsbnKey = _xml.getValue(ISBN_API_TAG_isbn13, "unknown");
+    _xml.pushTag(ISBN_API_TAG_BookList);
+    
+    
+    
+    // Get the isbn number and check it -------------------------------------------------------------------
+    m_sIsbnKey = _xml.getAttribute(ISBN_API_TAG_BookData, ISBN_API_TAG_BookData_ATT_isbn13, "unknown");
     double isbnCheck = ofToDouble(m_sIsbnKey);
 
     if(isbnCheck<=0 || m_sIsbnKey.size()<=0 || m_sIsbnKey=="unknown"){
@@ -51,8 +63,11 @@ bool ofxIsbndbBook::fill(ofxXmlSettings &_xml){
         return false;
     }
     
-    m_sTitle = _xml.getValue(ISBN_API_TAG_title, "unknown");
-    m_sAuthor = _xml.getValue(ISBN_API_TAG_author_data_name, "unknown");
+    _xml.pushTag(ISBN_API_TAG_BookData);
+    
+    
+    m_sTitle = _xml.getValue(ISBN_API_TAG_Title, "unknown");
+    m_sAuthor = _xml.getValue(ISBN_API_TAG_AuthorsText, "unknown");
     
     m_bIsFilled = true;
     return true;

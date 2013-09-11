@@ -2,6 +2,7 @@
 
 //--------------------------------------------------------------
 void testApp::setup(){
+    ofSetLogLevel(OF_LOG_VERBOSE);
     // We have to define the object for callback
     ofRegisterURLNotification(&m_oIsbndb);
 }
@@ -21,7 +22,7 @@ void testApp::draw(){
     message += "a/A : Ask a number and send to isbndb\n";
     message += "z/Z : Send to isbndb the number of :  Les Cantos d'Hyperion\n";
     message += "e/E : Send to isbndb the number of :  Slumdog millionar (this is times out ! )\n\n";
-    message += "All of them are french books, bien sžr";
+    message += "All of them are french books, bien sur";
     
     ofDrawBitmapString(message, 50, 50);
     

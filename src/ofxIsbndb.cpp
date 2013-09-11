@@ -13,27 +13,31 @@ ofxIsbndb::~ofxIsbndb()
 // Send URL to store refs from one isbn number ---------------
 string ofxIsbndb::urlRequest_book(string _isbn){
 
-    string urlRequest = urlRequest_basis();
+    string urlRequest = URL_isbndbBasic;
 
-    urlRequest += "/book";
-    urlRequest += "/" + ofToString(_isbn, 0, 13, '0');
-
-    return urlRequest;
-
-}
-
-// Return Basis URL needed ---------------
-string ofxIsbndb::urlRequest_basis(){
-
-    string urlRequest = "";
-
-    urlRequest += URL_isbndbBasic;
-    urlRequest += URL_ForXML;
-    urlRequest += "/";
+    urlRequest += "/books.xml";
+    // Adding the key
+    urlRequest += "?";
+    urlRequest += URL_request_accessKey;
+    urlRequest += "=";
     urlRequest += apiKey_isbndb;
-
+    
+    urlRequest += "&";
+    urlRequest += URL_request_index1;
+    urlRequest += "=";
+    urlRequest += URL_request_index1_isbn;
+    
+    urlRequest += "&";
+    urlRequest += URL_request_value1;
+    urlRequest += "=";
+    urlRequest += ofToString(_isbn, 0, 13, '0');
+    
+    ofLogVerbose() << urlRequest;
+    /*
+    // http://isbndb.com/api/books.xml?access_key=12345678&index1=isbn&value1=0596002068
+    */
     return urlRequest;
-
+    
 }
 
 //--------------------------------------------------------------
@@ -55,11 +59,13 @@ void ofxIsbndb::send(string _isbnNumber){
     
     // Build the url
     url = urlRequest_book(_isbnNumber);
+    
     // Send it to the world wide web
     ofLoadURLAsync(url,apiRequest_Name_Book);
     m_bLoading =true;
+    
     // Log it
-    ofLogNotice() << "Request sent : " << url;
+    ofLogVerbose() << "Request sent : " << url;
     
     
 }
@@ -70,22 +76,28 @@ void ofxIsbndb::urlResponse(ofHttpResponse & response){
     ofxXmlSettings  xml;
     
     // 
-    ofLogNotice() << "Response Got : Status=" << response.status << " Request Name=" << response.request.name;
+    ofLogVerbose() << "Response Got : Status=" << response.status << " Request Name=" << response.request.name;
     
-	if(response.status==apiStatus_Found && response.request.name == apiRequest_Name_Book){
-		xml.clear();
-        xml.loadFromBuffer(response.data);
+	if(response.status==apiStatus_Found || response.status==apiStatus_dontKnow){
         
-        // Response OK, we can decode
-        ofLogNotice() << "Response OK, we'll add a book.";
-        if(m_oBookReceived.fill(xml)){
-            // Log the book added
-            ofLogNotice() << "BOOK ADDED : " << m_oBookReceived.toString();
+        if(response.request.name == apiRequest_Name_Book){
+            
+            xml.clear();
+            xml.loadFromBuffer(response.data);
+        
+            string xmlContent;
+            xml.copyXmlToString(xmlContent);
+            ofLogVerbose()<< xmlContent;
+        
+            // Response OK, we can decode
+            ofLogVerbose() << "Response OK, we'll add a book.";
+            if(m_oBookReceived.fill(xml)){
+                // Log the book added
+                ofLogVerbose() << "BOOK ADDED : " << m_oBookReceived.toString();
+            }
         }
 
 		m_bLoading=false;
-        
-        
         
 	}else{
 		//

@@ -28,9 +28,6 @@ class ofxIsbndb
     public:
         ofxIsbndbBook   get_BookReceived(){return m_oBookReceived;};
     
-    private:
-        string urlRequest_basis();
-    
     bool m_bLoading;
 
 };
