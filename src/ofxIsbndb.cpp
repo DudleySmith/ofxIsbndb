@@ -66,7 +66,8 @@ void ofxIsbndb::send(string _isbnNumber){
     
     // Log it
     ofLogVerbose() << "Request sent : " << url;
-    
+    // Message to others
+    //m_sIsbnMessage = url;
     
 }
 
@@ -93,7 +94,9 @@ void ofxIsbndb::urlResponse(ofHttpResponse & response){
             ofLogVerbose() << "Response OK, we'll add a book.";
             if(m_oBookReceived.fill(xml)){
                 // Log the book added
-                ofLogVerbose() << "BOOK ADDED : " << m_oBookReceived.toString();
+                ofLogVerbose() << "BOOK RECEIVED from isbndb.org : " << m_oBookReceived.toString();
+                // Message to others
+                m_sIsbnMessage = m_oBookReceived.get_author() + " " + m_oBookReceived.get_title();
             }
         }
 

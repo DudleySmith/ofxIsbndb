@@ -28,7 +28,12 @@ class ofxIsbndb
     public:
         ofxIsbndbBook   get_BookReceived(){return m_oBookReceived;};
     
-    bool m_bLoading;
+    bool    m_bLoading;
 
+private:
+    string  m_sIsbnMessage;
+public:
+    string  get_isbnMessage(){return m_sIsbnMessage;};
+    void    set_isbnMessage(string _isbnMessage){m_sIsbnMessage = _isbnMessage;};
 };
 
