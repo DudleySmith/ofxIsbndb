@@ -1,6 +1,6 @@
 (Addon not complete, waiting for ofStandards)
 
-ofxIsbndb
+#ofxIsbndb
 wrapper for the api of isbndb.org. isbndb.org is a big database with books informations.
 
 To know more visit : http://www.isbndb.org/
