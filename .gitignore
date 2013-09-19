@@ -2,6 +2,7 @@
 # bin folders
 ######################
 */bin
+*.plist
 
 # OS generated files #
 ######################
