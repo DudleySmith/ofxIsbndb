@@ -2,7 +2,7 @@
 
 ofxIsbndb::ofxIsbndb()
 {
-    //ctor
+    m_fTimeFromLastRequest=0;
 }
 
 ofxIsbndb::~ofxIsbndb()
@@ -42,6 +42,7 @@ string ofxIsbndb::urlRequest_book(string _isbn){
 
 //--------------------------------------------------------------
 void ofxIsbndb::send(string _isbnNumber){
+    
     double isbnToSend = ofToDouble(_isbnNumber);
     string url = "";
     
@@ -63,9 +64,11 @@ void ofxIsbndb::send(string _isbnNumber){
     // Send it to the world wide web
     ofLoadURLAsync(url,apiRequest_Name_Book);
     m_bLoading =true;
+    m_fTimeFromLastRequest = ofGetElapsedTimef();
     
     // Log it
     ofLogVerbose() << "Request sent : " << url;
+    
     // Message to others
     //m_sIsbnMessage = url;
     
@@ -106,4 +109,14 @@ void ofxIsbndb::urlResponse(ofHttpResponse & response){
 		//
         if(response.status!=-1) m_bLoading=false;
 	}
+}
+
+// Time
+float ofxIsbndb::waitingTime(){
+
+    if(m_bLoading==false){
+        return 0.0;
+    }else{
+        return (ofGetElapsedTimef() - m_fTimeFromLastRequest);
+    }
 }

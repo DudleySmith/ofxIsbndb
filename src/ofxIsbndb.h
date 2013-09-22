@@ -32,8 +32,12 @@ class ofxIsbndb
 
 private:
     string  m_sIsbnMessage;
+    float   m_fTimeFromLastRequest;
 public:
     string  get_isbnMessage(){return m_sIsbnMessage;};
     void    set_isbnMessage(string _isbnMessage){m_sIsbnMessage = _isbnMessage;};
+    
+    float   waitingTime();
+    
 };
 
