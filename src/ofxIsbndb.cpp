@@ -21,78 +21,78 @@ string ofxIsbndb::urlRequest_book(string _isbn){
     urlRequest += URL_request_accessKey;
     urlRequest += "=";
     urlRequest += apiKey_isbndb;
-    
+
     urlRequest += "&";
     urlRequest += URL_request_index1;
     urlRequest += "=";
     urlRequest += URL_request_index1_isbn;
-    
+
     urlRequest += "&";
     urlRequest += URL_request_value1;
     urlRequest += "=";
     urlRequest += ofToString(_isbn, 0, 13, '0');
-    
+
     ofLogVerbose() << urlRequest;
     /*
     // http://isbndb.com/api/books.xml?access_key=12345678&index1=isbn&value1=0596002068
     */
     return urlRequest;
-    
+
 }
 
 //--------------------------------------------------------------
 void ofxIsbndb::send(string _isbnNumber){
-    
+
     double isbnToSend = ofToDouble(_isbnNumber);
     string url = "";
-    
+
     setIsbnMessage("");
-    
+
     if(isbnToSend<=0){
         // Can not sent, log it
         ofLogError() << "Request not sent : isbn not available : " << _isbnNumber;
         return;
     }
-    
+
     if(m_bLoading==true){
         // Can not sent, log it
         ofLogError() << "Request already sent.";
         return;
     }
-    
+
     // Build the url
     url = urlRequest_book(_isbnNumber);
-    
+
     // Send it to the world wide web
     ofLoadURLAsync(url,apiRequest_Name_Book);
     m_bLoading =true;
     m_fTimeFromLastRequest = ofGetElapsedTimef();
-    
+
     // Log it
     ofLogVerbose() << "Request sent : " << url;
-    
-    
+
+
 }
 
 //--------------------------------------------------------------
-bool ofxIsbndb::urlResponse(ofHttpResponse & response){
-    
+void ofxIsbndb::urlResponse(ofHttpResponse & response){
+
     ofxXmlSettings  xml;
-    
-    // 
+
+    //
     ofLogVerbose() << "Response Got : Status=" << response.status << " Request Name=" << response.request.name;
-    
+
 	if(response.status==apiStatus_Found || response.status==apiStatus_dontKnow){
-        
+
         if(response.request.name == apiRequest_Name_Book){
-            
+
             xml.clear();
             xml.loadFromBuffer(response.data);
-        
+
             string xmlContent;
             xml.copyXmlToString(xmlContent);
             ofLogVerbose()<< xmlContent;
-        
+
             // Response OK, we can decode
             ofLogVerbose() << "Response OK, we'll add a book.";
             if(m_oBookReceived.fill(xml)){
@@ -109,7 +109,7 @@ bool ofxIsbndb::urlResponse(ofHttpResponse & response){
         }
 
 		m_bLoading=false;
-        
+
 	}else{
         // Message to others
         addLineIsbnMessage("Il y a un problème. Nous n'avons pas Internet.");
