@@ -46,6 +46,8 @@ void ofxIsbndb::send(string _isbnNumber){
     double isbnToSend = ofToDouble(_isbnNumber);
     string url = "";
     
+    setIsbnMessage("");
+    
     if(isbnToSend<=0){
         // Can not sent, log it
         ofLogError() << "Request not sent : isbn not available : " << _isbnNumber;
@@ -69,13 +71,11 @@ void ofxIsbndb::send(string _isbnNumber){
     // Log it
     ofLogVerbose() << "Request sent : " << url;
     
-    // Message to others
-    //m_sIsbnMessage = url;
     
 }
 
 //--------------------------------------------------------------
-void ofxIsbndb::urlResponse(ofHttpResponse & response){
+bool ofxIsbndb::urlResponse(ofHttpResponse & response){
     
     ofxXmlSettings  xml;
     
@@ -99,13 +99,20 @@ void ofxIsbndb::urlResponse(ofHttpResponse & response){
                 // Log the book added
                 ofLogVerbose() << "BOOK RECEIVED from isbndb.org : " << m_oBookReceived.toString();
                 // Message to others
-                m_sIsbnMessage = m_oBookReceived.get_author() + " " + m_oBookReceived.get_title();
+                addLineIsbnMessage("Votre livre est :");
+                addLineIsbnMessage(m_oBookReceived.get_author() + " " + m_oBookReceived.get_title());
+            }else{
+                //
+                addLineIsbnMessage("Ce livre n'existe pas.");
+                //
             }
         }
 
 		m_bLoading=false;
         
 	}else{
+        // Message to others
+        addLineIsbnMessage("Il y a un problème. Nous n'avons pas Internet.");
 		//
         if(response.status!=-1) m_bLoading=false;
 	}

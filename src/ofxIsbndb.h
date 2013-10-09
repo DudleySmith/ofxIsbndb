@@ -20,7 +20,7 @@ class ofxIsbndb
         virtual ~ofxIsbndb();
 
         string  urlRequest_book(string _isbn);
-        void    urlResponse(ofHttpResponse &_response);
+        bool    urlResponse(ofHttpResponse &_response);
         void    send(string _isbnNumber);
     
     protected:
@@ -34,8 +34,10 @@ private:
     string  m_sIsbnMessage;
     float   m_fTimeFromLastRequest;
 public:
-    string  get_isbnMessage(){return m_sIsbnMessage;};
-    void    set_isbnMessage(string _isbnMessage){m_sIsbnMessage = _isbnMessage;};
+    string  getIsbnMessage(){return m_sIsbnMessage;};
+    void    setIsbnMessage(string _isbnMessage){m_sIsbnMessage = _isbnMessage;};
+    void    appendIsbnMessage(string _isbnMessage){m_sIsbnMessage.append(_isbnMessage);};
+    void    addLineIsbnMessage(string _isbnMessage){m_sIsbnMessage.append("\n" + _isbnMessage);};
     
     float   waitingTime();
     

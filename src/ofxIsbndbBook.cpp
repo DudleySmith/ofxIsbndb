@@ -33,7 +33,7 @@ bool ofxIsbndbBook::fill(ofxXmlSettings &_xml){
     // 2 Tags mandatory : isbndb + datas
     
     if (!_xml.pushTag(ISBN_API_TAG_header)) {
-        ofLogError() << "Can not retreive this tag." << ISBN_API_TAG_header;
+        ofLogError() << "Can not retrieve this tag." << ISBN_API_TAG_header;
         return false;
     }
     
