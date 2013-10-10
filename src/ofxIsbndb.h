@@ -22,12 +22,12 @@ class ofxIsbndb
         string  urlRequest_book(string _isbn);
         void    urlResponse(ofHttpResponse &_response);
         void    send(string _isbnNumber);
-    
+
     protected:
         ofxIsbndbBook   m_oBookReceived;
     public:
         ofxIsbndbBook   get_BookReceived(){return m_oBookReceived;};
-    
+
     bool    m_bLoading;
 
 private:
@@ -38,8 +38,8 @@ public:
     void    setIsbnMessage(string _isbnMessage){m_sIsbnMessage = _isbnMessage;};
     void    appendIsbnMessage(string _isbnMessage){m_sIsbnMessage.append(_isbnMessage);};
     void    addLineIsbnMessage(string _isbnMessage){m_sIsbnMessage.append("\n" + _isbnMessage);};
-    
+
     float   waitingTime();
-    
+
 };
 
