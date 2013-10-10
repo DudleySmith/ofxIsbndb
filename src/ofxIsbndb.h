@@ -20,7 +20,7 @@ class ofxIsbndb
         virtual ~ofxIsbndb();
 
         string  urlRequest_book(string _isbn);
-        bool    urlResponse(ofHttpResponse &_response);
+        void    urlResponse(ofHttpResponse &_response);
         void    send(string _isbnNumber);
     
     protected:

@@ -75,7 +75,7 @@ void ofxIsbndb::send(string _isbnNumber){
 }
 
 //--------------------------------------------------------------
-bool ofxIsbndb::urlResponse(ofHttpResponse & response){
+void ofxIsbndb::urlResponse(ofHttpResponse & response){
     
     ofxXmlSettings  xml;
     
