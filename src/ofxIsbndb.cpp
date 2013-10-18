@@ -112,9 +112,10 @@ void ofxIsbndb::urlResponse(ofHttpResponse & response){
 
 	}else{
         // Message to others
-        setIsbnMessage("Il y a un problème. Nous n'avons pas Internet.");
+        setIsbnMessage("Il y a un probleme. Nous n'avons pas Internet.");
 		//
-        if(response.status!=-1) m_bLoading=false;
+        //if(response.status!=-1) m_bLoading=false;
+        m_bLoading=false;
 	}
 }
 
