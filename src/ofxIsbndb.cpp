@@ -103,7 +103,7 @@ void ofxIsbndb::urlResponse(ofHttpResponse & response){
                 addLineIsbnMessage(m_oBookReceived.get_author() + " " + m_oBookReceived.get_title());
             }else{
                 //
-                addLineIsbnMessage("Ce livre n'existe pas.");
+                addLineIsbnMessage("Ce livre n'a pas été trouvé dans la base de données. Il faut en essayer un autre.");
                 //
             }
         }
